@@ -26,6 +26,13 @@ public class Container {
 		return tipoContainer;
 	}
 
+	public boolean containerIsFull() {
+		if (tipoContainer[0] == 0 || tipoContainer[1] == 0 || tipoContainer[2] == 0 || tipoContainer[3] == 0) {
+			return false;
+		}
+		return true;
+	}
+
 	public void setTipoContainer(Integer[] tipoContainer) {
 		this.tipoContainer = tipoContainer;
 	}

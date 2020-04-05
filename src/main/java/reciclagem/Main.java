@@ -23,7 +23,12 @@ public class Main {
 				System.out.println("Comando para conectar: " + mensagemCliente);
 				if (mensagemCliente.equalsIgnoreCase("cheguei_container")) {
 					limparContainer(container);
+					int sleepContainter = (int) ((Math.random() * 10000) + 1000);
+					System.out.println("Tempo para o container encher novamente: " + sleepContainter);
+					Thread.sleep(sleepContainter);
+					encherContainer(container);
 				}
+				cliente.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,10 +41,12 @@ public class Main {
 	}
 
 	private static void encherContainer(Container container) {
-		new Thread(new EncherEsvaziarContainer(container, false)).start();
-		new Thread(new EncherEsvaziarContainer(container, false)).start();
-		new Thread(new EncherEsvaziarContainer(container, false)).start();
-		new Thread(new EncherEsvaziarContainer(container, false)).start();
+		if (!container.containerIsFull()) {
+			new Thread(new EncherEsvaziarContainer(container, false)).start();
+			new Thread(new EncherEsvaziarContainer(container, false)).start();
+			new Thread(new EncherEsvaziarContainer(container, false)).start();
+			new Thread(new EncherEsvaziarContainer(container, false)).start();
+		}
 	}
 
 }
