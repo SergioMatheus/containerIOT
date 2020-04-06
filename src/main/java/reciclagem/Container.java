@@ -6,10 +6,6 @@ public class Container {
 	private Integer[] tipoContainer = { 0, 0, 0, 0 };
 	private boolean caminhao = false;
 
-	/**
-	 * 0 - PAPEL 1 - VIDRO 2 - METAL 4 - PLASTICO
-	 */
-
 	public Container(Integer idContainer) {
 		this.idContainer = idContainer;
 	}

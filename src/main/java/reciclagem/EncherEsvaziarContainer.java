@@ -16,21 +16,18 @@ public class EncherEsvaziarContainer implements Runnable {
 		if (!this.container.isCaminhao()) {
 			while (contadorContainer < 100) {
 				contadorContainer += (int) (Math.random() * 10);
-				System.out.println(Thread.currentThread().getName() + " - " + contadorContainer);
+				System.out.println(
+						Thread.currentThread().getName() + " - " + (contadorContainer > 100 ? 100 : contadorContainer));
 				try {
 					Thread.sleep((int) (Math.random() * 1000));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
-			for (int i = 0; i <= this.container.getTipoContainer().length - 1; i++) {
-				if (this.container.getTipoContainer()[i] == 0) {
-					this.container.getTipoContainer()[i] = 1;
-					String msg = "CHEIO " + conteverTipo(i) + " " + container.getIdContainer();
-					new Thread(new ClienteThread(msg)).start();
-					System.out.println(msg);
-					break;
-				}
+			setLixoContainer();
+			contadorContainer = 0;
+			if (containerCheio()) {
+				new Thread(new ClienteThread("CHEIO " + container.getIdContainer())).start();
 			}
 		} else {
 			System.out.println("Esvaziando Container");
@@ -38,6 +35,27 @@ public class EncherEsvaziarContainer implements Runnable {
 			this.container.setCaminhao(false);
 		}
 		imprimirContainers();
+	}
+
+	private boolean containerCheio() {
+		for (int i = 0; i < container.getTipoContainer().length; i++) {
+			if (container.getTipoContainer()[i] == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void setLixoContainer() {
+		for (int i = 0; i <= this.container.getTipoContainer().length - 1; i++) {
+			if (this.container.getTipoContainer()[i] == 0) {
+				this.container.getTipoContainer()[i] = 1;
+				String msg = "CHEIO " + conteverTipo(i) + " " + container.getIdContainer();
+				// new Thread(new ClienteThread(msg)).start();
+				System.out.println(msg);
+				break;
+			}
+		}
 	}
 
 	private String conteverTipo(int i) {

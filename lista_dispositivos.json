@@ -1,7 +1,7 @@
 
 	{
 	  "central": {
-	    "ip": "0.tcp.ngrok.io",
-	    "porta": "18781"
+	    "ip": "0.tcp.sa.ngrok.io",
+	    "porta": "13344"
 	  }
 	}

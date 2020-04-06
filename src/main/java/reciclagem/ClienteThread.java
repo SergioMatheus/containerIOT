@@ -1,14 +1,14 @@
 package reciclagem;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class ClienteThread implements Runnable {
 
@@ -33,22 +33,26 @@ public class ClienteThread implements Runnable {
 
 				Socket socket = new Socket(host, porta);
 
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-				out.flush();
-				System.out.println("Enviando comando: " + msg);
-				out.println(msg);
+				envioMensagem(socket);
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (SocketException e) {
-				System.out.println("Erro de socket");
+				e.printStackTrace();
 			} catch (IOException e) {
-				System.out.println("Erro de conexao");
+				e.printStackTrace();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Ocorreu um erro inesperado");
 		}
+	}
+
+	private void envioMensagem(Socket socket) throws IOException {
+		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+		out.flush();
+		System.out.println("Enviando comando: " + msg);
+		out.println(msg);
 	}
 
 }

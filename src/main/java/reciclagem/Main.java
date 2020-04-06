@@ -13,7 +13,7 @@ public class Main {
 			int portaServer = 8082;
 			servidor = new ServerSocket(portaServer);
 			System.out.println("Servidor iniciado na porta " + portaServer);
-			Container container = new Container(2);
+			Container container = new Container(6);
 			encherContainer(container);
 			while (servidor.isBound()) {
 				Socket cliente = servidor.accept();
@@ -21,19 +21,23 @@ public class Main {
 				BufferedReader entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 				String mensagemCliente = entrada.readLine();
 				System.out.println("Comando para conectar: " + mensagemCliente);
-				if (mensagemCliente.equalsIgnoreCase("cheguei_container")) {
-					limparContainer(container);
-					int sleepContainter = (int) ((Math.random() * 10000) + 1000);
-					System.out.println("Tempo para o container encher novamente: " + sleepContainter);
-					Thread.sleep(sleepContainter);
-					encherContainer(container);
-				}
+				caminhaoChegou(container, mensagemCliente);
 				cliente.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void caminhaoChegou(Container container, String mensagemCliente) throws InterruptedException {
+		if (mensagemCliente.equalsIgnoreCase("cheguei_container") || mensagemCliente.contains("CHEGUEI_CONTAINER")) {
+			limparContainer(container);
+			int sleepContainter = (int) ((Math.random() * 10000) + 1000);
+			System.out.println("Tempo para o container encher novamente: " + sleepContainter);
+			Thread.sleep(sleepContainter);
+			encherContainer(container);
+		}
 	}
 
 	private static void limparContainer(Container container) {
